@@ -1,3 +1,7 @@
 venv
 .idea
 __pycache__
+ci-build
+dist
+build
+limbs.egg-info
