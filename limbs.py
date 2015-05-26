@@ -8,7 +8,7 @@ import io
 limbs
 =====
 
-like mime, but simpler
+like mime, but simpler - a simple, human-readable file format
 
 Simple I/O to flat text files with a header (composed of fields) and a body (arbitrary bytes).
 Ideal for no-hassle storage of some metadata and some large data that doesn't fit nicely into
