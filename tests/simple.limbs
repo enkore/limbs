@@ -1,0 +1,18 @@
+Field-One: Has A Value
+Field-Two: is field two
+Superfluous:      surrounding space is trimmed
+Space-Before    : the name-value separating double-dot is trimmed
+Double: fields are
+Double: overwritten
+Fields-Can: span multiple lines
+ by indenting them with one or more
+ spaces, however, all lines except the first
+ need to have the same number of spaces,
+ which are removed.
+   Thus extra leading space is preserved.
+UTF-8: is the äncöding of choice.
+From: reserved keywords are mangled with an appended underscore
+
+The body consists of arbitrary data and is separated with a single empty line
+from the header. In contrast to the header neither the encoding nor the format
+is specified - the body is simply a bytestring.
