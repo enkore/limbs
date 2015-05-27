@@ -75,6 +75,14 @@ def test_dump_property():
     assert dumps(A()) == b"Prop: 1234\n"
 
 
+def test_dump_protected():
+    class A:
+        def __init__(self):
+            self._protected = 1234
+
+    assert dumps(A()) == b""
+
+
 def test_dump_load(simple_object):
     ss = io.BytesIO()
     dump(simple_object, ss)

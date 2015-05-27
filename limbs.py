@@ -152,6 +152,7 @@ def get_object_fields(obj):
         vars(obj).items(),
         get_properties(obj)
     )
+    fields = filter(lambda kv: not kv[0].startswith("_"), fields)
     return sorted(fields, key=lambda kv: limbize(kv[0]))
 
 
