@@ -42,6 +42,21 @@ from the header. In contrast to the header neither the encoding nor the format
 is specified - the body is simply a bytestring."""
 
 
+def test_load_property():
+    class A:
+        @property
+        def prop(self):
+            return self._prop
+
+        @prop.setter
+        def prop(self, value):
+            self._prop = int(value)
+
+    o = loads(b"Prop: 42\n", A)
+    assert o.prop == 42
+    assert o._prop == 42
+
+
 def test_dump_simple(simple_object):
     ss = io.BytesIO()
     dump(simple_object, ss)
@@ -49,6 +64,15 @@ def test_dump_simple(simple_object):
     assert ss.getvalue().decode("utf-8") == """Field-One: Has A Value
 Field-Two: is field two
 """
+
+
+def test_dump_property():
+    class A:
+        @property
+        def prop(self):
+            return 1234
+
+    assert dumps(A()) == b"Prop: 1234\n"
 
 
 def test_dump_load(simple_object):

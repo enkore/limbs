@@ -1,4 +1,4 @@
-
+from itertools import chain
 import keyword
 import inspect
 import io
@@ -139,10 +139,20 @@ def indent_continued_field(value):
     return "\n ".join(value.splitlines())
 
 
+def get_properties(obj):
+    # meh
+    for property, _ in inspect.getmembers(obj.__class__, inspect.isdatadescriptor):
+        if property.startswith("__"):
+            continue
+        yield property, getattr(obj, property)
+
+
 def get_object_fields(obj):
-    fields = list(vars(obj).items())
-    fields.sort(key=lambda kv: limbize(kv[0]))
-    return fields
+    fields = chain(
+        vars(obj).items(),
+        get_properties(obj)
+    )
+    return sorted(fields, key=lambda kv: limbize(kv[0]))
 
 
 def get_object_body(obj):
