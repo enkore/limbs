@@ -54,7 +54,6 @@ def test_load_property():
 
     o = loads(b"Prop: 42\n", A)
     assert o.prop == 42
-    assert o._prop == 42
 
 
 def test_dump_simple(simple_object):
