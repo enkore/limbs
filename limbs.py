@@ -46,6 +46,29 @@ class _LimbsObject:
         self.body = fp.read()
 
 
+def convert_bool(value):
+    value = value.lower()
+    if value in ["0", "no", "false"]:
+        return False
+    elif value in ["1", "yes", "true"]:
+        return True
+    raise ValueError("Expected boolean value, but '%s' not in 0, 1, no, yes, false, true." % value)
+
+
+CONVERSIONS = {
+    "bool": convert_bool,
+    "int": int,
+}
+
+
+def convert_value(value, conversion):
+    if not conversion:
+        return value
+    if conversion in CONVERSIONS:
+        return CONVERSIONS[conversion](value)
+    return conversion(value)
+
+
 def decode(bytes):
     return bytes.decode(ENCODING).replace("\r\n", "\n")
 
@@ -115,12 +138,17 @@ def load(file_like, load_into=_LimbsObject, key_transform=lambda s: s):
     :return: Either a new instance of load_into or load_into
     """
     obj = get_instance_of(load_into)
+    conversions = getattr(obj, "_limbs_convert", {})
 
     for line in decoded(file_like):
         if line == "\n":
             break  # header ended
 
         key, value = read_field(line, file_like, key_transform)
+        try:
+            value = convert_value(value, conversions.get(key, None))
+        except ValueError as ve:
+            raise ValueError("Could not parse value for field '%s'" % key) from ve
         setattr(obj, key, value)
 
     read_body(obj, file_like)

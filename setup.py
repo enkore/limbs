@@ -11,7 +11,7 @@ Ideal for no-hassle storage of some metadata and some large data that doesn't fi
 things like JSON (which becomes really hard to edit in a text editor if there's a 2 MB blob of
 numbers somewhere in it)."""
 
-setup(name="limbs", version="0.3",
+setup(name="limbs", version="0.4",
       description=DESCRIPTION,
       url="http://github.com/enkore/limbs/",
       author="Marian Beermann", author_email="public@enkore.de",

@@ -133,4 +133,22 @@ def test_dump_body_attr():
 
     assert s.splitlines()[-1] == b"1234"
 
+
+def test_load_conversion():
+    class A:
+        _limbs_convert = {
+            "binary_field": "bool",
+            "false_field": "bool",
+            "integer_field": "int",
+        }
+    input = b"Binary-Field: Yes\n" \
+            b"False-Field: 0\n" \
+            b"integer-field: 1234\n" \
+            b"plain-field: 1234"
+    o = loads(input, A)
+    assert o.binary_field is True
+    assert o.false_field is False
+    assert o.integer_field == 1234
+    assert o.plain_field == "1234"
+
 # TODO: error handling, acceptance etc.
